@@ -1,6 +1,34 @@
 from django.db import models
 from django.conf import settings
 
+
+class Plan(models.Model):
+    PLAN_CHOICES = [
+        ('titanium', 'Titanium'),
+        ('vip_platinum', 'VIP Platinum'),
+    ]
+    
+    nombre = models.CharField(max_length=50, choices=PLAN_CHOICES, unique=True)
+    subtitulo = models.CharField(max_length=100)
+    precio = models.DecimalField(max_digits=10, decimal_places=2)
+    moneda = models.CharField(max_length=3, default='USD')
+    mensualidad = models.DecimalField(max_digits=10, decimal_places=2)
+    puntos_inicio = models.IntegerField(default=0)
+    puntos_mensuales = models.IntegerField(default=0)
+    descripcion = models.TextField()
+    caracteristicas = models.JSONField(default=list)
+    activo = models.BooleanField(default=True)
+    orden = models.IntegerField(default=0)
+    
+    class Meta:
+        ordering = ['orden']
+        verbose_name = 'Plan'
+        verbose_name_plural = 'Planes'
+    
+    def __str__(self):
+        return f"{self.get_nombre_display()} - ${self.precio}"
+
+
 class Membresia(models.Model):
     PLAN_CHOICES = [
         ('titanium', 'Titanium'),
@@ -19,13 +47,10 @@ class Membresia(models.Model):
         on_delete=models.CASCADE,
         related_name='membresias'
     )
-    plan = models.CharField(max_length=20, choices=PLAN_CHOICES)
+    plan = models.ForeignKey(Plan, on_delete=models.SET_NULL, null=True)
     estado = models.CharField(max_length=20, choices=ESTADO_CHOICES, default='pendiente')
     fecha_inicio = models.DateField(blank=True, null=True)
     fecha_renovacion = models.DateField(blank=True, null=True)
-    inversion_inicial = models.DecimalField(max_digits=10, decimal_places=2, default=0)
-    mensualidad = models.DecimalField(max_digits=10, decimal_places=2, default=0)
-    puntos_inicio = models.IntegerField(default=0)
     puntos_acumulados = models.IntegerField(default=0)
     puntos_canjeados = models.IntegerField(default=0)
     num_referidos_activos = models.IntegerField(default=0)
@@ -38,11 +63,7 @@ class Membresia(models.Model):
         verbose_name_plural = 'Membresías'
     
     def __str__(self):
-        return f"{self.usuario.email} - {self.get_plan_display()}"
-    
-    @property
-    def puntos_disponibles(self):
-        return self.puntos_inicio + self.puntos_acumulados - self.puntos_canjeados
+        return f"{self.usuario.email} - {self.plan}"
 
 
 class Referral(models.Model):
