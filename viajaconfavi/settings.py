@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-crgy$p#z))l3m+h87x%)_s*l@36e$%ar#^a%=y($!0mt8s5+ra
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['100.81.171.84', 'cmxserver.curlew-vector.ts.net', 'localhost', '127.0.0.1', '192.168.1.*', 'cmxserver.curlew-vector.ts.net']
 
 
 # Application definition
