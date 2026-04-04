@@ -15,7 +15,7 @@ class Lead(models.Model):
     ]
     
     nombre = models.CharField(max_length=255)
-    email = models.EmailField()
+    email = models.EmailField(unique=True)
     telefono = models.CharField(max_length=50)
     mensaje = models.TextField(blank=True, null=True)
     plan_interes = models.CharField(max_length=20, choices=PLAN_CHOICES, default='informacion')

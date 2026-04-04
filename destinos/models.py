@@ -93,3 +93,61 @@ class Garantia(models.Model):
     
     def __str__(self):
         return self.titulo
+
+
+class OfertaEmpresa(models.Model):
+    STATUS_CHOICES = [
+        ('borrador', 'Borrador'),
+        ('publicada', 'Publicada'),
+        ('archivada', 'Archivada'),
+    ]
+
+    titulo = models.CharField(max_length=255)
+    descripcion = models.TextField()
+    precio = models.DecimalField(max_digits=10, decimal_places=2)
+    imagen = models.ImageField(upload_to='ofertas/', blank=True, null=True)
+    destino = models.ForeignKey(
+        Destino,
+        on_delete=models.CASCADE,
+        related_name='ofertas_empresa',
+    )
+    incluye = models.JSONField(default=list)
+    duracion = models.CharField(max_length=100)
+    destacada = models.BooleanField(default=False)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='borrador')
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-destacada', '-created_at']
+        verbose_name = 'Oferta empresa'
+        verbose_name_plural = 'Ofertas empresa'
+
+    def __str__(self):
+        return f"{self.titulo} - {self.destino.pais}"
+
+
+class BlogEmpresa(models.Model):
+    STATUS_CHOICES = [
+        ('borrador', 'Borrador'),
+        ('publicada', 'Publicada'),
+        ('archivada', 'Archivada'),
+    ]
+
+    titulo = models.CharField(max_length=255)
+    slug = models.SlugField(max_length=255, unique=True)
+    excerpt = models.TextField()
+    contenido = models.TextField()
+    imagen = models.ImageField(upload_to='blog/', blank=True, null=True)
+    autor = models.CharField(max_length=255)
+    tags = models.JSONField(default=list)
+    lectura_minutos = models.PositiveIntegerField()
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='borrador')
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-created_at']
+        verbose_name = 'Blog empresa'
+        verbose_name_plural = 'Blog empresa'
+
+    def __str__(self):
+        return self.titulo

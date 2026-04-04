@@ -5,6 +5,7 @@ from .models import Plan, Membresia, Referral
 class PlanAdmin(admin.ModelAdmin):
     list_display = ['nombre', 'subtitulo', 'precio', 'mensualidad', 'puntos_inicio', 'activo', 'orden']
     list_filter = ['activo', 'nombre']
+    search_fields = ['nombre', 'subtitulo', 'descripcion']
     ordering = ['orden']
 
 @admin.register(Membresia)
