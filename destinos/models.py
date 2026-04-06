@@ -14,7 +14,7 @@ class Destino(models.Model):
     pais = models.CharField(max_length=100)
     codigo_pais = models.CharField(max_length=3)
     bandera_emoji = models.CharField(max_length=10)
-    imagen = models.URLField()
+    imagen = models.ImageField(upload_to='destinos/', blank=True, null=True)
     numero_resorts = models.IntegerField()
     continente = models.CharField(max_length=20, choices=CONTINENTE_CHOICES)
     comida = models.CharField(max_length=100)
