@@ -15,9 +15,20 @@ class PaqueteSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class TestimonioSerializer(serializers.ModelSerializer):
+    foto_url = serializers.SerializerMethodField()
+
     class Meta:
         model = Testimonio
-        fields = '__all__'
+        fields = ['id', 'nombre', 'foto', 'foto_url', 'texto', 'viaje', 'rating', 'aprobado', 'fecha']
+        read_only_fields = ['id', 'fecha']
+
+    def get_foto_url(self, obj):
+        if obj.foto:
+            request = self.context.get('request')
+            if request:
+                return request.build_absolute_uri(obj.foto.url)
+            return obj.foto.url
+        return None
 
 class GarantiaSerializer(serializers.ModelSerializer):
     class Meta:

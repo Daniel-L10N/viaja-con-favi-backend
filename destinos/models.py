@@ -63,7 +63,7 @@ class Paquete(models.Model):
 
 class Testimonio(models.Model):
     nombre = models.CharField(max_length=255)
-    foto = models.URLField(blank=True, null=True)
+    foto = models.ImageField(upload_to='testimonios/', blank=True, null=True)
     texto = models.TextField()
     viaje = models.CharField(max_length=255)
     rating = models.IntegerField(default=5)
