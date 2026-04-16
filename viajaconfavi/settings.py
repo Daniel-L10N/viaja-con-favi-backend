@@ -64,6 +64,7 @@ CORS_ALLOWED_ORIGINS = [
     'http://localhost:5173',
     'https://daniel-l10n.github.io',
     'https://viaja-con-favi.vercel.app',
+    'https://viaja-con-favi-git-feature-testimonios-from-backend-controlmodularm.vercel.app',
 ]
 
 ROOT_URLCONF = 'viajaconfavi.urls'
